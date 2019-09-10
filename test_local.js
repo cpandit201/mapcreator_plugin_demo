@@ -117,12 +117,12 @@ define(function (require) {
 
             var myEditor = new HERE.xyz.maps.editor.Editor(window.display, editorConfig);
             window.editor = myEditor
-            myEditor.clearObjectSelection();
+            //myEditor.clearObjectSelection();
 
             //Enable Drawing Board in Polygon mode
 
             window.drawingBoard = myEditor.getDrawingBoard();
-            window.drawingBoard.start({
+            myEditor.getDrawingBoard().start({
                 mode: HERE.xyz.maps.editor.features.Area,
                 layer: HERE.xyz.maps.layers.TileLayer,//HERE.xyz.maps.layers.TileLayer,//this.state.currentLayer,
                 styleGroup: styleGroupsConfig.drawingBoard.polygons
