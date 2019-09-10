@@ -94,7 +94,8 @@ define(
                 this.deleteDrawing();
                 break;
                 case 13://ENTER
-                this.deleteDrawing();
+                // this.deleteDrawing();
+
                 break;
                 default:
             }
@@ -184,7 +185,11 @@ define(
 
                 window.drawingBoard = myEditor.getDrawingBoard();
 
-                window.drawingBoard.create();
+                // window.drawingBoard.create();
+
+                // this.mapObject.addEventListener('dbltap', this.onMapDoubleClick);
+                // myEditor.addEventListener('pointerup', this.onEditorPointerUp);
+                // myEditor.addObserver('history.current', this.onEditorHistoryChange);
 
                 window.drawingBoard.start({
                     mode: HERE.xyz.maps.editor.features.Area,
@@ -192,11 +197,7 @@ define(
                     styleGroup: styleGroupsConfig.drawingBoard.polygons
                 })
 
-                // this.mapObject.addEventListener('dbltap', this.onMapDoubleClick);
-                // myEditor.addEventListener('pointerup', this.onEditorPointerUp);
-                // myEditor.addObserver('history.current', this.onEditorHistoryChange);
-
-                document.addEventListener('keydown', this.onKeyPress);
+                // document.addEventListener('keydown', this.onKeyPress);
 
                 // myEditor.setZoomLevel(19)
 
