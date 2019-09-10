@@ -16,14 +16,19 @@
 			overflow: hidden;
 			top: 0;
 			left: 0;
-			width: 100%;
-			height: 100%;
+			width: 75%;
+			height: 75%;
+			margin: 30px auto;
 		}
 	</style>
 </head>
 
 <body>
+
 	<div id="map"></div>
+
+	<button onclick="start()">Start</button>
+	<button>End</button>
 
 	<script type="application/javascript">
 		//specify your credentials for image and link layers
@@ -123,11 +128,87 @@
 		window.editor = this.editor;
 		this.editor.clearObjectSelection();
 		this.drawingBoard = this.editor.getDrawingBoard();
-		this.drawingBoard.start({
-                mode: HERE.xyz.maps.editor.features.Area,
-                layer: HERE.xyz.maps.layers.TileLayer,//HERE.xyz.maps.layers.TileLayer,//this.state.currentLayer,
-                styleGroup: styleGroupsConfig.drawingBoard.polygons
-        })
+		
+		// this.drawingBoard.start({
+        //         mode: HERE.xyz.maps.editor.features.Area,
+        //         layer: HERE.xyz.maps.layers.TileLayer,//HERE.xyz.maps.layers.TileLayer,//this.state.currentLayer,
+        //         styleGroup: styleGroupsConfig.drawingBoard.polygons
+		// })
+
+		function start() {
+		
+			this.drawingBoard.start({
+					mode: HERE.xyz.maps.editor.features.Area,
+					layer: HERE.xyz.maps.layers.TileLayer,//HERE.xyz.maps.layers.TileLayer,//this.state.currentLayer,
+					styleGroup: styleGroupsConfig.drawingBoard.polygons,
+					onFinish: () => {
+						alert("Done..")
+					}
+			})
+		}
+
+
+        onEditorHistoryChange = () => {
+
+            history = {
+                current_step: this.editor.get('history.current'),
+                total_steps: this.editor.get('history.length'),
+                modified_features: this.editor.get('changes.length'),
+            }
+            console.log(history);
+
+            // window.drawingBoard.cancel();
+        };
+
+
+
+		onMapDoubleClick = e => {
+			console.log("Double Tapped")
+			window.display.setZoomlevel(
+			window.display.getZoomlevel() + 1,
+			e.mapX,
+			e.mapY
+			);
+		};
+
+		
+        onKeyPress = e => {
+            //if (this.editor.active())
+            //if (myEditor.isEditMode()) {
+            e.preventDefault();
+
+            switch (e.keyCode) {
+				case 27: // ESCAPE
+				
+				console.log("Key Pressed ESCAPE..")
+                // this.clearDrawingBoard();
+                window.drawingBoard.cancel();
+                break;
+				case 8://Backspace
+				console.log("Key Pressed BKSPACE..")
+                // this.deleteDrawing();
+                break;
+				case 13://ENTER
+				console.log("Key Pressed ENTER..")
+				this.drawingBoard.create();
+
+                // window.drawingBoard.start({
+                //     mode: HERE.xyz.maps.editor.features.Area,
+                //     layer: HERE.xyz.maps.layers.TileLayer,//HERE.xyz.maps.layers.TileLayer,//this.state.currentLayer,
+                //     styleGroup: styleGroupsConfig.drawingBoard.polygons
+                // })
+
+                break;
+                default:
+            }
+        
+		};
+		
+		document.addEventListener('keydown', this.onKeyPress);
+		window.display.addEventListener('dbltap', this.onMapDoubleClick);
+		///this.editor.addObserver('history.current', this.onEditorHistoryChange);
+
+		
 	</script>
 </body>
 
